@@ -42,10 +42,6 @@ openssl pkcs12 -in server.p12 -nokeys -out server.crt -password pass:secret -pas
 openssl pkcs12 -in server.p12 -nocerts -out server.key -password pass:secret -passout pass:secret
 openssl pkcs12 -in server.p12 -nodes -out server.pem -password pass:secret -passout pass:secret
 
-copy ca.crt ..\nginx\ca.crt
-copy server.crt ..\nginx\server.crt
-copy server.key ..\nginx\server.key
-
 
 keytool -v -genkeypair -dname "CN=CLIENT_1,OU=Tls,O=Paperbird,C=RU" -keystore client_1.jks -storepass secret -keypass secret -keyalg RSA -keysize 2048 -alias client_1 -validity 3650 -deststoretype pkcs12 -ext KeyUsage=digitalSignature,dataEncipherment,keyEncipherment,keyAgreement -ext ExtendedKeyUsage=serverAuth,clientAuth
 keytool -v -certreq -file client_1.csr -keystore client_1.jks -alias client_1 -keypass secret -storepass secret -keyalg rsa
@@ -60,3 +56,10 @@ keytool -importkeystore -srckeystore client_1.jks -srcstorepass secret -deststor
 openssl pkcs12 -in client_1.p12 -nokeys -out client_1.crt -password pass:secret -passout pass:secret
 openssl pkcs12 -in client_1.p12 -nocerts -out client_1.key -password pass:secret -passout pass:secret
 openssl pkcs12 -in client_1.p12 -nodes -out client_1.pem -password pass:secret -passout pass:secret
+
+
+copy ca.crt ..\nginx\ca.crt
+copy server.crt ..\nginx\server.crt
+copy server.key ..\nginx\server.key
+copy client_1.crt ..\nginx\client_1.crt
+copy client_1.key ..\nginx\client_1.key

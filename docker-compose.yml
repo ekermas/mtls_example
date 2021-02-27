@@ -12,8 +12,8 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/c/workspace/mtls-example/server/logs:/opt/server/logs
-      - /mnt/c/workspace/mtls-example/cert/server.jks:/opt/server/jks/server.jks
-      - /mnt/c/workspace/mtls-example/cert/ca.jks:/opt/server/jks/ca.jks
+      - /mnt/c/workspace/mtls-example/cert/server.jks:/opt/server/jks/server.jks:ro
+      - /mnt/c/workspace/mtls-example/cert/ca.jks:/opt/server/jks/ca.jks:ro
     ports:
       - 81:80
       - 444:443
