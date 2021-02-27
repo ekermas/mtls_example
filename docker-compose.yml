@@ -1,0 +1,9 @@
+version: '2.2'
+services:
+  api-gateway:
+    build: ./nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+
