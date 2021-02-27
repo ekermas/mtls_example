@@ -22,6 +22,8 @@ del client_1.pem
 del ..\nginx\ca.crt
 del ..\nginx\server.crt
 del ..\nginx\server.key
+del ..\nginx\client_1.crt
+del ..\nginx\client_1.key
 
 keytool -v -genkeypair -dname "CN=Root-CA,OU=Tls,O=Paperbird,C=RU" -keystore ca.jks -storepass secret -keypass secret -keyalg RSA -keysize 2048 -alias root-ca -validity 3650 -deststoretype pkcs12 -ext KeyUsage=digitalSignature,keyCertSign -ext BasicConstraints=ca:true,PathLen:3
 keytool -v -exportcert -file ca.pem -alias root-ca -keystore ca.jks -storepass secret -rfc
@@ -31,7 +33,7 @@ openssl pkcs12 -in ca.p12 -nokeys -out ca.crt -password pass:secret -passout pas
 openssl pkcs12 -in ca.p12 -nocerts -out ca.key -password pass:secret -passout pass:secret
 
 
-keytool -v -genkeypair -dname "CN=SERVER,OU=Tls,O=Paperbird,C=RU" -keystore server.jks -storepass secret -keypass secret -keyalg RSA -keysize 2048 -alias server -validity 3650 -deststoretype pkcs12 -ext KeyUsage=digitalSignature,dataEncipherment,keyEncipherment,keyAgreement -ext ExtendedKeyUsage=serverAuth,clientAuth -ext SubjectAlternativeName:c=DNS:localhost,DNS:ekermas-hsrv,IP:127.0.0.1
+keytool -v -genkeypair -dname "CN=SERVER,OU=Tls,O=Paperbird,C=RU" -keystore server.jks -storepass secret -keypass secret -keyalg RSA -keysize 2048 -alias server -validity 3650 -deststoretype pkcs12 -ext KeyUsage=digitalSignature,dataEncipherment,keyEncipherment,keyAgreement -ext ExtendedKeyUsage=serverAuth,clientAuth -ext SubjectAlternativeName:c=DNS:localhost,DNS:ekermas-hsrv,DNS:api-gateway,IP:127.0.0.1
 keytool -v -certreq -file server.csr -keystore server.jks -alias server -keypass secret -storepass secret -keyalg rsa
 keytool -v -gencert -infile server.csr -outfile server.cer -keystore ca.jks -storepass secret -alias root-ca -ext KeyUsage=digitalSignature,dataEncipherment,keyEncipherment,keyAgreement -ext ExtendedKeyUsage=serverAuth,clientAuth -ext SubjectAlternativeName:c=DNS:localhost,DNS:ekermas-hsrv,IP:127.0.0.1
 keytool -v -importcert -file ca.pem -alias root-ca -keystore server.jks -storepass secret -noprompt

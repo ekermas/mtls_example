@@ -19,6 +19,13 @@ server:
     trust-store: file:/opt/server/jks/ca.jks
     trust-store-password: secret
     client-auth: need
+client:
+  ssl:
+    key-store: file:/opt/server/jks/client_1.jks
+    key-password: secret
+    key-store-password: secret
+    trust-store: file:/opt/server/jks/ca.jks
+    trust-store-password: secret
 # Management
 management:
   endpoints.web.exposure.include: "*"

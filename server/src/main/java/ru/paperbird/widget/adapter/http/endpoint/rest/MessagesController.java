@@ -2,7 +2,9 @@ package ru.paperbird.widget.adapter.http.endpoint.rest;
 
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.paperbird.widget.adapter.service.processing.MessagesFromWidgetHandler;
 
 import static net.logstash.logback.argument.StructuredArguments.kv;
@@ -19,17 +21,16 @@ public class MessagesController {
         this.messagesFromWidgetHandler = messagesFromWidgetHandler;
     }
 
-    @PostMapping(path = "/api/echo")
-    public String postMessages(@RequestBody String src) {
-        log.debug("{} {}",
-                kv("method", "postMessages"),
-                kv("src", src)
+    @GetMapping(path = "/api/echo")
+    public String getEcho() {
+        log.debug("{}",
+                kv("method", "getEcho")
         );
         try {
-            return messagesFromWidgetHandler.handlePostRequest(src);
+            return messagesFromWidgetHandler.handlePostRequest("");
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            return "success";
+            return ex.getMessage();
         }
     }
 

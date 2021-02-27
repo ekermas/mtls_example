@@ -13,6 +13,7 @@ services:
     volumes:
       - /mnt/c/workspace/mtls-example/server/logs:/opt/server/logs
       - /mnt/c/workspace/mtls-example/cert/server.jks:/opt/server/jks/server.jks:ro
+      - /mnt/c/workspace/mtls-example/cert/client_1.jks:/opt/server/jks/client_1.jks:ro
       - /mnt/c/workspace/mtls-example/cert/ca.jks:/opt/server/jks/ca.jks:ro
     ports:
       - 81:80

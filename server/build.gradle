@@ -27,6 +27,7 @@ dependencies {
     //implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.2.6.RELEASE'
     //implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.2.6.RELEASE'
     // other
+    compile 'org.apache.httpcomponents:httpclient:4.5.2'
     implementation('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.3')
     compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
     // lombok
