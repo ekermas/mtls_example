@@ -17,6 +17,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     //implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
     //implementation group: 'io.micrometer', name: 'micrometer-registry-elastic'
+    implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
