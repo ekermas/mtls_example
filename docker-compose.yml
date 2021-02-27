@@ -7,3 +7,13 @@ services:
       - 80:80
       - 443:443
 
+  server:
+    build: ./server
+    restart: unless-stopped
+    volumes:
+      - /mnt/c/workspace/mtls-example/server/logs:/opt/server/logs
+      - /mnt/c/workspace/mtls-example/cert/server.jks:/opt/server/jks/server.jks
+      - /mnt/c/workspace/mtls-example/cert/ca.jks:/opt/server/jks/ca.jks
+    ports:
+      - 81:80
+      - 444:443

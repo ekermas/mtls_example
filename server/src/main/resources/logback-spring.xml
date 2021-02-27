@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <property name="LOGS" value="./logs"/>
+    <property name="BASE_FILE_NAME" value="${springAppName}"/>
+
+    <appender name="console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--%black(%d{ISO8601}) %highlight(${LOG_LEVEL_PATTERN:-%5p}) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable-->
+            <Pattern><![CDATA[
+            %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %highlight(${LOG_LEVEL_PATTERN:-%5p}) %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}
+            ]]>
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="plain"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/${BASE_FILE_NAME}.log</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+        <!-- rollover daily -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/${BASE_FILE_NAME}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each file should be at most 10MB, keep 3 days worth of history -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ru.paperbird.utils.logging.StartupSizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>3</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="json"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/${BASE_FILE_NAME}.json</file>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <timeZone>UTC</timeZone>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/${BASE_FILE_NAME}-%d{yyyy-MM-dd}.%i.json.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ru.paperbird.utils.logging.StartupSizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="plain"/>
+        <appender-ref ref="json"/>
+    </root>
+
+    <logger name="org.springframework" level="info" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="plain"/>
+        <appender-ref ref="json"/>
+    </logger>
+
+    <logger name="org.mybatis" level="trace" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="plain"/>
+        <appender-ref ref="json"/>
+    </logger>
+
+    <logger name="ru.paperbird" level="trace" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="plain"/>
+        <appender-ref ref="json"/>
+    </logger>
+
+</configuration>

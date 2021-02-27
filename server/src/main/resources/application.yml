@@ -1,0 +1,44 @@
+spring:
+  application.name: bot-platform-widget-adapter-java-echo
+  profiles.active: dev
+  cloud:
+    # Service discovery
+    consul:
+      host: consul
+      port: 8500
+      instance-id: custom-service-id
+      serviceName: ${spring.application.name}
+# HTTP server
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store: file:/opt/server/jks/server.jks
+    key-password: secret
+    key-store-password: secret
+# Management
+management:
+  endpoints.web.exposure.include: "*"
+  metrics.web.server.request.autotime.enabled: false
+  metrics.export:
+    prometheus:
+      enabled: true
+    elastic:
+      enabled: true
+      # The interval at which metrics are sent to Elastic. The default is 1 minute.
+      auto-create-index: false
+      host: http://ubuntu:9200
+      step: 1m
+      # The index to store metrics in, defaults to "micrometer-metrics"
+      index: micrometer-metrics
+      #management.metrics.distribution.percentiles-histogram.http.server.requests=true
+      #percentiles.http.server.requests: 0.95, 0.99
+      #sla.http.server.requests: 10ms, 100ms
+
+# Logging
+# logging.level.org.springframework.web.servlet.DispatcherServlet=TRACE
+
+# Sleuth
+# spring.zipkin.baseUrl=http://ubuntu:9411/
+# spring.sleuth.instrument.web.skipPattern=/actuator/health
+# spring.sleuth.async.enabled=false

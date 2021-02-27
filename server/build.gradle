@@ -1,0 +1,46 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'ru.paperbird'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // compile project(':shared')
+    // starter
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    //implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
+    //implementation group: 'io.micrometer', name: 'micrometer-registry-elastic'
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    implementation('org.springframework.boot:spring-boot-starter-jetty')
+    // cloud
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-consul-all', version: '2.2.5.RELEASE'
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '2.2.6.RELEASE'
+    //implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.2.6.RELEASE'
+    // other
+    implementation('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.3')
+    compile group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
+    // lombok
+    compileOnly('org.projectlombok:lombok:1.18.12')
+    annotationProcessor('org.projectlombok:lombok:1.18.12')
+    // tests
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // vavr
+    compile group: 'io.vavr', name: 'vavr', version: '0.10.3'
+    testCompileOnly('org.projectlombok:lombok:1.18.12')
+    testAnnotationProcessor('org.projectlombok:lombok:1.18.12')
+}
+
+test {
+    useJUnitPlatform()
+}

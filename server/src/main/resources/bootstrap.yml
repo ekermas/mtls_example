@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spring-boot-server
+  cloud:
+    consul:
+      config:
+        enabled: false
+        prefix: configuration
+        defaultContext: apps
+        profileSeparator: '::'
